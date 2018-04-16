@@ -1,0 +1,4 @@
+LIBRARY	"PerkApplyBugFix"
+EXPORTS
+SKSEPlugin_Query
+SKSEPlugin_Load
