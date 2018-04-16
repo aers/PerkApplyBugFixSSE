@@ -12,7 +12,6 @@ typedef void(*_UnknownAddFunc)(int64_t taskPool, int64_t actorPtr, int64_t perkP
 RelocAddr<_UnknownAddFunc> UnknownAddFunc(0x005C6C50);
 RelocAddr<uintptr_t *> TaskPool(0x02F5F978);
 
-#pragma optimize("", off)
 void do_add(int64_t actorPtr, int64_t perkPtr, int32_t unk1)
 {
 	uint32_t val = 0;
@@ -28,14 +27,10 @@ void do_add(int64_t actorPtr, int64_t perkPtr, int32_t unk1)
 
 	UnknownAddFunc(*TaskPool, actorPtr, perkPtr, val, unk1);
 }
-#pragma optimize("", on)
 
 typedef void(*_HandleAddRf)(int64_t apm);
 RelocAddr<_HandleAddRf> HandleAddRf(0x006824D0);
 
-#pragma optimize("", off)
-// crashes in release mode if this function is optimized
-// cant be bothered to debug right now
 void do_handle(int64_t actorPtr, uint32_t val)
 {
 	bool shouldClear = (val & 0x100) != 0;
@@ -47,7 +42,6 @@ void do_handle(int64_t actorPtr, uint32_t val)
 			HandleAddRf(apm);
 	}
 }
-#pragma optimize("", on)
 
 // .text:00000001405C8FDE                 movzx   r8d, byte ptr [rdi+18h]
 RelocAddr<uintptr_t> SwitchFunctionMovzx(0x005C8FDE);
@@ -198,14 +192,14 @@ extern "C" {
 
 					// call do_handle
 					
-					push(rdx);
+					push(rdx); // save rdx+rcx
 					push(rcx);
 					mov(edx, r14d); // val
 					mov(rcx, rsi); // actorPtr
-					sub(rsp, 0x10);
+					sub(rsp, 0x20); // parameter stack space 
 					//void do_handle(int64_t actorPtr, uint32_t val)
 					call(ptr[rip + funcLabel]);
-					add(rsp, 0x10);
+					add(rsp, 0x20);
 					pop(rcx);
 					pop(rdx);
 					
