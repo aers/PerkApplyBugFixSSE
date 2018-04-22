@@ -130,6 +130,11 @@
       <Project>{5fd1c08d-db80-480c-a1c6-f0920005cd13}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="offsets.h" />
+    <ClInclude Include="offsets\offsets_SSE1539.h" />
+    <ClInclude Include="offsets\offsets_VR1364.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

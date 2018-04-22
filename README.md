@@ -4,9 +4,9 @@ skse64 plugin to fix the double perk apply bug documented [here](https://requiem
 
 This is an implementation of the method meh321 used to fix the bug in Skyrim: LE in his [bug fixes](https://www.nexusmods.com/skyrim/mods/76747) mod; all credit for the method goes to him.
 
-May cause CTDs or unknown behavior because I don't entirely know what I'm doing ;-)
-
 For SSE 1.5.39/skse64 2.0.7
+
+Untested offsets for Skyrim VR 1.3.64 are in the offsets/ folder, build the plugin with those against the sksevr source if you want it.
 
 ## Building
 

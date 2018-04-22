@@ -6,11 +6,13 @@
 #include "../xbyak/xbyak.h"
 #include <shlobj.h>
 
+#include "offsets.h"
+
 uint32_t next_formid = 0;
 
 typedef void(*_UnknownAddFunc)(int64_t taskPool, int64_t actorPtr, int64_t perkPtr, uint32_t val, int32_t unk1);
-RelocAddr<_UnknownAddFunc> UnknownAddFunc(0x005C6C50);
-RelocAddr<uintptr_t *> TaskPool(0x02F5F978);
+RelocAddr<_UnknownAddFunc> UnknownAddFunc(off_UNKNOWN_ADD_FUNCTION);
+RelocAddr<uintptr_t *> TaskPool(off_TASKPOOL);
 
 void do_add(int64_t actorPtr, int64_t perkPtr, int32_t unk1)
 {
@@ -20,6 +22,7 @@ void do_add(int64_t actorPtr, int64_t perkPtr, int32_t unk1)
 
 	if (formid == next_formid)
 	{
+		_MESSAGE("perk loop in formid %08X", formid);
 		next_formid = 0;
 		if (formid != 0x14) // player formid = 0x14
 			val |= 0x100;
@@ -29,7 +32,7 @@ void do_add(int64_t actorPtr, int64_t perkPtr, int32_t unk1)
 }
 
 typedef void(*_HandleAddRf)(int64_t apm);
-RelocAddr<_HandleAddRf> HandleAddRf(0x006824D0);
+RelocAddr<_HandleAddRf> HandleAddRf(off_HANDLEADDRF);
 
 void do_handle(int64_t actorPtr, uint32_t val)
 {
@@ -44,21 +47,21 @@ void do_handle(int64_t actorPtr, uint32_t val)
 }
 
 // .text:00000001405C8FDE                 movzx   r8d, byte ptr [rdi+18h]
-RelocAddr<uintptr_t> SwitchFunctionMovzx(0x005C8FDE);
+RelocAddr<uintptr_t> SwitchFunctionMovzx(off_SWITCHMOVZX);
 // .text:00000001405C6C6A                 movzx   edi, r9b
-RelocAddr<uintptr_t> UnknownAddFuncMovzx1(0x005C6C6A);
+RelocAddr<uintptr_t> UnknownAddFuncMovzx1(off_ADDFUNCMOVZX1);
 // .text:00000001405C6C96                 movzx   eax, dil
-RelocAddr<uintptr_t> UnknownAddFuncMovzx2(0x005C6C96);
+RelocAddr<uintptr_t> UnknownAddFuncMovzx2(off_ADDFUNCMOVZX2);
 // next form id get
 // .text:000000014068249B                 mov     [rsp+38h+var_10], rdx
 // .text:00000001406824A0                 lea     rdx, [rsp + 38h + var_18]
-RelocAddr<uintptr_t> NextFormIdGetHook(0x0068249B);
+RelocAddr<uintptr_t> NextFormIdGetHook(off_NEXTFORMIDGETHOOK);
 // do_handle hook
 // .text:000000014033891B                 add     rcx, 60h
 // .text:000000014033891F                 movzx   ebp, r9b
 // .text:0000000140338923                 movzx   r14d, r8b
 // length 0x8
-RelocAddr<uintptr_t> DoHandleHook(0x0033891B);
+RelocAddr<uintptr_t> DoHandleHook(off_DOHANDLEHOOK);
 // do_add hook
 // .text:0000000140338CC1                 movzx   eax, byte ptr [rdx+8]
 // .text:0000000140338CC5                 xor     r9d, r9d
@@ -68,7 +71,7 @@ RelocAddr<uintptr_t> DoHandleHook(0x0033891B);
 // .text:0000000140338CD7                 call    sub_1405C6C50
 // .text:0000000140338CDC loc_140338CDC:    
 // length 0x1B
-RelocAddr<uintptr_t> DoAddHook(0x00338CC1);
+RelocAddr<uintptr_t> DoAddHook(off_DOADDHOOK);
 
 
 extern "C" {

@@ -6,4 +6,18 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="offsets.h" />
+    <ClInclude Include="offsets\offsets_SSE1539.h">
+      <Filter>offsets</Filter>
+    </ClInclude>
+    <ClInclude Include="offsets\offsets_VR1364.h">
+      <Filter>offsets</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="offsets">
+      <UniqueIdentifier>{f7ce7ca7-435b-4950-b36f-c77febc71415}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>
